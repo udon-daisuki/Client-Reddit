@@ -15,6 +15,7 @@ This is the client to fetch data from Reddit, which is assigned from Codecademy.
 |react-redux|7.2.6|
 |@reduxjs/toolkit|1.8.0|
 |@mui/material|5.5.1|
+|@mui/icons-material|5.5.1|
 |@emotion/react|11.8.2|
 |@emotion/styled|11.8.1|
 
