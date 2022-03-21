@@ -3,6 +3,10 @@ import React from 'react';
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { NavBar } from './components/NavBar';
 import Grid from '@mui/material/Grid';
+import { Subreddits } from './features/Subreddits/Subreddits';
+
+import Container from '@mui/material/Container'
+import { Posts } from './features/Posts/Posts'
 
 const theme = createTheme({
   palette: {
@@ -19,14 +23,23 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
-      <Grid container>
-        <Grid item xs={9}>
-
+      <Container 
+        maxWidth={false}
+        sx={{
+          width: '100%',
+          p: 2,
+        }}
+      >
+        <Grid container spacing={5}>
+          <Grid item xs={9}>
+            <Posts />
+          </Grid>
+          <Grid item xs={3}>
+            <Subreddits />
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-
-        </Grid>
-      </Grid>
+      </Container>
+      
     </ThemeProvider>
   );
 }
