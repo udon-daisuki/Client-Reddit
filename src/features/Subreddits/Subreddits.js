@@ -1,14 +1,14 @@
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import Typography from '@mui/material/Typography'
-import { selectSubredditsData } from './subredditsSlice';
+import { selectAllSubredditIds } from './subredditsSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchSubreddits } from './subredditsSlice';
 import { Subreddit } from './Subreddit';
 
 export const Subreddits = () => {
-  const subreddits = useSelector(selectSubredditsData)
+  const ids = useSelector(selectAllSubredditIds)
   const dispatch = useDispatch()
   const [ selectedId, setSelectedId ] = useState('')
 
@@ -17,9 +17,9 @@ export const Subreddits = () => {
   }, [dispatch])
   
   useEffect(() => {
-    const initialId = Object.keys(subreddits)[0]
+    const initialId = ids[0]
     setSelectedId(initialId)
-  }, [setSelectedId, subreddits])
+  }, [setSelectedId, ids])
 
   return (
     <Paper>
@@ -28,13 +28,14 @@ export const Subreddits = () => {
         sx={{
           px: 2,
           pt: 2,
+          fontWeight: 'bold',
         }}>Subreddits</Typography>
       <List>
-        {Object.keys(subreddits).map(id => {
+        {ids.map(id => {
           return (
             <Subreddit 
               key={id} 
-              subreddit={subreddits[id]} 
+              id={id} 
               selected={id === selectedId} 
               setSelectedId={setSelectedId}
             />

@@ -4,7 +4,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { NavBar } from './components/NavBar';
 import Grid from '@mui/material/Grid';
 import { Subreddits } from './features/Subreddits/Subreddits';
-
 import Container from '@mui/material/Container'
 import { Posts } from './features/Posts/Posts'
 
@@ -12,9 +11,12 @@ const theme = createTheme({
   palette: {
     secondary: {
       main: '#ffffff',
-      light: '#f5f5f5',
+      light: '#fafafa',
       dark: '#a9a9a9',
       contrastText: '#1976d2'
+    },
+    text: {
+      primary: 'rgba(0, 0, 0, 0.75)'
     }
   }
 })
