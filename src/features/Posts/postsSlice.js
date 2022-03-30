@@ -25,13 +25,15 @@ import { removeComments } from '../Comments/commentsSlice'
 //       commentIds: [],
 //     }
 //   },
-//   allIds: [1]
+//   allIds: [1],
+//   searchWord: ',
 // }
 
 const initialState = {
   status: {},
   byId: {},
   allIds: [],
+  searchTerm: '',
 }
 
 const postsSlice = createSlice({
@@ -46,6 +48,9 @@ const postsSlice = createSlice({
       const postId = action.payload
       posts.byId[postId].score -= 1
     },
+    searchByTerm: (posts, action) => {
+      posts.searchTerm = action.payload
+    }
   },
   extraReducers: builder => {
     builder
@@ -121,8 +126,15 @@ export const fetchPostsBySubreddit = createAsyncThunk(
 // Selector
 export const selectAllPostsIds = state => state.posts.allIds
 export const selectPostById = id => state => state.posts.byId[id]
+export const selectPostsByTerm = state => {
+  return state.posts.allIds.filter(id => {
+    const postTitle = state.posts.byId[id].title.toLowerCase()
+    const term = state.posts.searchTerm.toLowerCase()
+    return postTitle.includes(term)
+  })
+}
 export const selectCommentIdsByPostId = id => state => state.posts.byId[id].commentIds
 
-export const { incrementScoreByOne, decrementScoreByOne } = postsSlice.actions
+export const { incrementScoreByOne, decrementScoreByOne, searchByTerm } = postsSlice.actions
 
 export default postsSlice.reducer

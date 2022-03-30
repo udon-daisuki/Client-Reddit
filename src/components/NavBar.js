@@ -3,11 +3,8 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import RedditIcon from '@mui/icons-material/Reddit';
-import InputBase from '@mui/material/InputBase'
-import SearchIcon from '@mui/icons-material/Search';
-import InputAdornment from '@mui/material/InputAdornment';
-import { alpha } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
+import { SearchBar } from './SearchBar';
 
 export const NavBar = () => {
   return (
@@ -30,34 +27,7 @@ export const NavBar = () => {
               display: 'flex',
               alignItems: 'center',
             }}>
-              <Box
-                width='100%' 
-                sx={(theme) => ({
-                backgroundColor: alpha(theme.palette.common.white, 0.15),
-                borderRadius: '5px',
-                transition: theme.transitions.create('background-color', {
-                  duration: 250,
-                }), 
-                '&:hover': {
-                  backgroundColor: alpha(theme.palette.common.white, 0.25)
-                },
-              })}>
-                <InputBase 
-                  startAdornment={(
-                    <InputAdornment position='start'>
-                      <SearchIcon 
-                        sx={(theme) => ({
-                          color: theme.palette.common.white,
-                        })}/>
-                    </InputAdornment>
-                  )}
-                  placeholder='Search'
-                  sx={(theme) => ({
-                  color: theme.palette.common.white,
-                  padding: '5px',
-                  width: '100%',
-                })}/>
-              </Box>
+              <SearchBar />
             </Grid>
           </Grid>
         </Toolbar>

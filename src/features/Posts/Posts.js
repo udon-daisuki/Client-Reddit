@@ -1,13 +1,14 @@
 import { Post } from './Post'
 import { useSelector } from 'react-redux'
-import { selectAllPostsIds } from './postsSlice'
+import { selectAllPostsIds, selectPostsByTerm } from './postsSlice'
 
 export const Posts = () => {
   const allPostsIds = useSelector(selectAllPostsIds)
+  const postIdsByTerm = useSelector(selectPostsByTerm)
 
   return (
     <>
-      {allPostsIds.map(id => (
+      {postIdsByTerm.map(id => (
         <Post id={id} key={id} />
       ))}
     </>
