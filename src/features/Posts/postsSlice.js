@@ -136,6 +136,10 @@ export const selectPostsByTerm = state => {
   })
 }
 export const selectCommentIdsByPostId = id => state => state.posts.byId[id].commentIds
+export const selectPostsIsLoading = state => state.posts.status.isLoading
+export const selectScoreByPostId = id => state => {
+  return state.posts.byId[id] ? state.posts.byId[id].score : null
+}
 
 export const { incrementScoreByOne, decrementScoreByOne, searchByTerm } = postsSlice.actions
 
