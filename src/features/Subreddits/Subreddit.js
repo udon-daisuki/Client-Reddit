@@ -4,7 +4,7 @@ import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPostsBySubreddit } from '../Posts/postsSlice';
+import { fetchPostsBySubredditId } from '../Posts/postsSlice';
 import Typography from '@mui/material/Typography'
 import { selectSubredditById } from './subredditsSlice';
 
@@ -14,7 +14,7 @@ export const Subreddit = ({ id, selected, setSelectedId }) => {
 
   const onClickHandler = () => {
     setSelectedId(subreddit.id)
-    dispatch(fetchPostsBySubreddit(subreddit.url))
+    dispatch(fetchPostsBySubredditId(subreddit.id))
   }
 
   return (

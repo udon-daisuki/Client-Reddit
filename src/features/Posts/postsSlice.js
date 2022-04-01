@@ -54,13 +54,13 @@ const postsSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchPostsBySubreddit.pending, (state, action) => {
+      .addCase(fetchPostsBySubredditId.pending, (state, action) => {
         state.status.isLoading = true
         state.status.error = { hasError: false, code: '', errMsg: '' }
         state.byId = {}
         state.allIds = []
       })
-      .addCase(fetchPostsBySubreddit.fulfilled, (state, action) => {
+      .addCase(fetchPostsBySubredditId.fulfilled, (state, action) => {
         state.status.isLoading = false
         state.status.error = { hasError: false, code: '', errMsg: '' }
         const dataChildren = action.payload.data.children
@@ -81,7 +81,7 @@ const postsSlice = createSlice({
           state.allIds.push(id)
         })
       })
-      .addCase(fetchPostsBySubreddit.rejected, (state, action) => {
+      .addCase(fetchPostsBySubredditId.rejected, (state, action) => {
         state.status.isLoading = false
         state.status.error = action.payload
       })
@@ -102,11 +102,13 @@ const postsSlice = createSlice({
 
 const hostName = 'https://www.reddit.com'
 
-export const fetchPostsBySubreddit = createAsyncThunk(
-  'posts/fetchPostsBySubreddit',
-  async (subredditUrl, { rejectWithValue }) => {
+export const fetchPostsBySubredditId = createAsyncThunk(
+  'posts/fetchPostsBySubredditId',
+  async (id, { rejectWithValue, getState }) => {
+    const state = getState()
+    const subreddit = state.subreddits.byId[id]
     try {
-      const res = await fetch(`${subredditUrl}.json`)
+      const res = await fetch(`${subreddit.url}.json`)
       if (res.ok) {
         const resJson = await res.json()
         return resJson

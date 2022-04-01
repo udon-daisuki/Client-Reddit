@@ -9,7 +9,11 @@ import { convertToRelativeDate } from '../../utils'
 import ReactMarkdown from 'react-markdown'
 import { useState } from 'react';
 
-const pStyle = css`
+const commentStyle = css`
+  pre {
+    white-space: pre-wrap; // markdownで<pre>に解釈される箇所で文章の回り込みをさせる
+  }
+
   p {
     margin: 0;
   }
@@ -55,7 +59,7 @@ export const Comment = ({ id }) => {
         </Typography>
       </Box>
       <Box>
-        <ReactMarkdown css={pStyle}>{comment.comment}</ReactMarkdown>
+        <ReactMarkdown css={commentStyle}>{comment.comment}</ReactMarkdown>
       </Box>
     </Paper>
   )

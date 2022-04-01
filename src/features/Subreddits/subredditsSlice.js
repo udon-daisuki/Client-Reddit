@@ -1,22 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Slice Shape example
-// const initialState = {
-//   isLoading: false,
-//   error: {
-//     hasError: false,
-//     errMsg: '',
-//   },
-//   data: {
-//     '1': {
-//       id: '1',
-//       title: 'Home',
-//       url: '/r/Home/',
-//       iconUrl: '',
-//     },
-//   }
-// }
-
 // const initialState = {
 //   status: {
 //     isLoading: false,

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchPostsBySubredditId } from "../Posts/postsSlice";
 
 // initial state example
 
@@ -26,13 +27,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 //       comment: '',
 //     },
 //   },
-//   allIds: [1, 2]
+//   allIds: [1, 2],
+//   postIdsLoadingComment: [1],
 // }
 
 const initialState = {
   status: {},
   byId: {},
   allIds: [],
+  postIdsLoadingComment: [],
 }
 
 const commentsSlice = createSlice({
@@ -40,20 +43,23 @@ const commentsSlice = createSlice({
   initialState: initialState,
   reducers: {
     removeComments: (comments, action) => {
-      const commentIds = action.payload.commentIds
+      const { postId, commentIds } = action.payload
       commentIds.forEach(id => {
         if (comments.byId.hasOwnProperty(id)) {
           delete comments.byId[id]
         }
       })
       comments.allIds = comments.allIds.filter(id => !commentIds.includes(id))
+      comments.postIdsLoadingComment = comments.postIdsLoadingComment.filter(id => id !== postId)
     }
   },
   extraReducers: builder => {
     builder
       .addCase(fetchCommentsByPostId.pending, (comments, action) => {
+        const postId = action.meta.arg.postId
         comments.status.isLoading = true
         comments.status.error = { hasError: false, code: '', errMsg: '' }
+        comments.postIdsLoadingComment.push(postId)
       })
       .addCase(fetchCommentsByPostId.fulfilled, (comments, action) => {
         comments.status.isLoading = false
@@ -71,8 +77,16 @@ const commentsSlice = createSlice({
         })
       })
       .addCase(fetchCommentsByPostId.rejected, (comments, action) => {
+        const postId = action.meta.arg.postId
         comments.status.isLoading = false
         comments.status.error = action.payload
+        comments.postIdsLoadingComment = comments.postIdsLoadingComment.filter(id => id !== postId)
+      })
+      .addCase(fetchPostsBySubredditId.fulfilled, (comments, action) => {
+        comments.status = {}
+        comments.byId = {}
+        comments.allIds = []
+        comments.postIdsLoadingComment = []
       })
   }
 })
@@ -111,6 +125,8 @@ export const getCommentIdsToRemove = postId => {
 
 // Selector
 export const selectCommentById = id => state => state.comments.byId[id]
+export const selectCommentIsLoading = state => state.comments.status.isLoading
+export const selectPostIdsLoadingComment = state => state.comments.postIdsLoadingComment
 
 export const { removeComments } = commentsSlice.actions
 

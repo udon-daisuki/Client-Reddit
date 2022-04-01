@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { fetchSubreddits } from './subredditsSlice';
 import { Subreddit } from './Subreddit';
+import { fetchPostsBySubredditId } from '../Posts/postsSlice';
 
 export const Subreddits = () => {
   const ids = useSelector(selectAllSubredditIds)
@@ -15,12 +16,15 @@ export const Subreddits = () => {
   useEffect(() => {
     dispatch(fetchSubreddits())
   }, [dispatch])
-  
-  useEffect(() => {
-    const initialId = ids[0]
-    setSelectedId(initialId)
-  }, [setSelectedId, ids])
 
+  useEffect(() => {
+    if (ids.length !== 0) {
+      const initialId = ids[0]
+      setSelectedId(initialId)
+      dispatch(fetchPostsBySubredditId(initialId))
+    }
+  }, [dispatch, ids])
+  
   return (
     <Paper>
       <Typography 
