@@ -26,7 +26,7 @@ import { removeComments } from '../Comments/commentsSlice'
 //     }
 //   },
 //   allIds: [1],
-//   searchWord: ',
+//   searchTerm: ',
 // }
 
 const initialState = {
@@ -140,6 +140,7 @@ export const selectPostsIsLoading = state => state.posts.status.isLoading
 export const selectScoreByPostId = id => state => {
   return state.posts.byId[id] ? state.posts.byId[id].score : null
 }
+export const selectSearchTerm = state => state.posts.searchTerm
 
 export const { incrementScoreByOne, decrementScoreByOne, searchByTerm } = postsSlice.actions
 

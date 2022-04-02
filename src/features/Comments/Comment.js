@@ -16,6 +16,7 @@ const commentStyle = css`
 
   p {
     margin: 0;
+    overflow-wrap: anywhere;
   }
 `
 

@@ -6,6 +6,10 @@ import Grid from '@mui/material/Grid';
 import { Subreddits } from './features/Subreddits/Subreddits';
 import Container from '@mui/material/Container'
 import { Posts } from './features/Posts/Posts'
+import useMediaQuery from '@mui/material/useMediaQuery';
+import Drawer from '@mui/material/Drawer';
+import { useSelector, useDispatch } from 'react-redux';
+import { selectDrawerStatus, closeDrawer } from './features/Subreddits/subredditsSlice';
 
 const theme = createTheme({
   palette: {
@@ -18,10 +22,14 @@ const theme = createTheme({
     text: {
       primary: 'rgba(0, 0, 0, 0.75)'
     }
-  }
+  },
 })
 
 function App() {
+  const matches = useMediaQuery(theme.breakpoints.up('md'))
+  const dispatch = useDispatch()
+  const drawerStatus = useSelector(selectDrawerStatus)
+
   return (
     <ThemeProvider theme={theme}>
       <NavBar />
@@ -33,12 +41,23 @@ function App() {
         }}
       >
         <Grid container spacing={5}>
-          <Grid item xs={9}>
+          <Grid item xs={12} md={8} lg={9}>
             <Posts />
           </Grid>
-          <Grid item xs={3}>
-            <Subreddits />
-          </Grid>
+          { matches ? (
+            <Grid item md={4} lg={3}>
+              <Subreddits />
+            </Grid>
+          ) : (
+            <Drawer
+              anchor='left'
+              open={drawerStatus}
+              ModalProps={{keepMounted: true}}
+              onClose={() => dispatch(closeDrawer())}
+            >
+              <Subreddits />
+            </Drawer>
+          )}
         </Grid>
       </Container>
       

@@ -29,11 +29,12 @@ export const Subreddits = () => {
     <Paper>
       <Typography 
         variant='h4'
-        sx={{
+        sx={(theme) => ({
           px: 2,
           pt: 2,
           fontWeight: 'bold',
-        }}>Subreddits</Typography>
+          [theme.breakpoints.down('lg')]: {fontSize: '1.5rem'}
+        })}>Subreddits</Typography>
       <List>
         {ids.map(id => {
           return (

@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchPostsBySubredditId } from "../Posts/postsSlice";
 
 // const initialState = {
 //   status: {
@@ -18,12 +19,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 //     },
 //   },
 //   allIds: [],
+//   drawerStatus: false,
 // }
 
 const initialState = {
   status: {},
   byId: {},
   allIds: [],
+  drawerStatus: false,
 }
 
 const hostName = 'https://www.reddit.com'
@@ -31,7 +34,14 @@ const hostName = 'https://www.reddit.com'
 const subredditsSlice = createSlice({
   name: 'subreddits',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    openDrawer: (subreddits, action) => {
+      subreddits.drawerStatus = true
+    },
+    closeDrawer: (subreddits, action) => {
+      subreddits.drawerStatus = false
+    }
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchSubreddits.pending, (state, action) => {
@@ -58,6 +68,9 @@ const subredditsSlice = createSlice({
       .addCase(fetchSubreddits.rejected, (state, action) => {
         state.status.isLoading = false
         state.status.error = action.payload
+      })
+      .addCase(fetchPostsBySubredditId.pending, (subreddits, action) => {
+        subreddits.drawerStatus = false
       })
   }
 })
@@ -88,5 +101,8 @@ export const fetchSubreddits = createAsyncThunk(
 export const selectSubredditsData = state => state.subreddits.byId
 export const selectAllSubredditIds = state => state.subreddits.allIds
 export const selectSubredditById = id => state => state.subreddits.byId[id]
+export const selectDrawerStatus = state => state.subreddits.drawerStatus
+
+export const { openDrawer, closeDrawer } = subredditsSlice.actions
 
 export default subredditsSlice.reducer

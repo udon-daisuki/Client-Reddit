@@ -26,7 +26,12 @@ export const Subreddit = ({ id, selected, setSelectedId }) => {
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={
-          <Typography sx={{fontWeight: 'bold'}}>{subreddit.title}</Typography>
+          <Typography 
+            sx={theme => ({
+              fontWeight: 'bold',
+              [theme.breakpoints.down('lg')]: {fontSize: '0.875rem'}
+            })}
+          >{subreddit.title}</Typography>
         }/>
       </ListItemButton>
     </ListItem>
